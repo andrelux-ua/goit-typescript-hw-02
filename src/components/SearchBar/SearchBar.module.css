@@ -15,12 +15,24 @@
 }
 
 .input {
+  box-sizing: border-box;
   padding: 10px;
   width: 300px;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
   margin-right: 15px;
+}
+
+.input:hover {
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 10px rgb(255, 217, 0.8);
+}
+
+.input:focus {
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 10px rgb(250, 249, 246);
+  outline: none;
 }
 
 .button {

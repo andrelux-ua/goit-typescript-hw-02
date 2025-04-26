@@ -1,6 +1,7 @@
 import Masonry from 'react-masonry-css';
 import ImageCard from '../ImageCard/ImageCard';
 import css from './ImageGallery.module.css';
+import { ImageGalleryProps } from '../../types/types';
 
 const breakpointColumns = {
   default: 3,
@@ -8,7 +9,7 @@ const breakpointColumns = {
   700: 1,
 };
 
-function ImageGallery({ items, onImageClick }) {
+function ImageGallery({ items, onImageClick }: ImageGalleryProps) {
   return (
     <Masonry
       breakpointCols={breakpointColumns}

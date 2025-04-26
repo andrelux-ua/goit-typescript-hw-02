@@ -1,10 +1,13 @@
 import Modal from 'react-modal';
 import { useEffect } from 'react';
 import css from './ImageModal.module.css';
+import { ImageModalProps } from '../../types/types';
+
 Modal.setAppElement('#module-root');
-function ImageModal({ isOpen, onClose, image }) {
+
+function ImageModal({ isOpen, onClose, image }: ImageModalProps) {
   useEffect(() => {
-    const handleKeyDown = event => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }
@@ -52,3 +55,5 @@ function ImageModal({ isOpen, onClose, image }) {
 }
 
 export default ImageModal;
+
+

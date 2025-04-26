@@ -8,17 +8,18 @@ import Loader from '../Loader/Loader';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ImageModal from '../ImageModal/ImageModal';
+import { Image } from '../../types/types';
 
 function App() {
-  const [articles, setArticles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [page, setPage] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [articles, setArticles] = useState<Image[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const handleSearch = searchTopic => {
+  const handleSearch = (searchTopic: string) => {
     setSearchTerm(`${searchTopic}/${Date.now()}`);
     setPage(1);
     setArticles([]);
@@ -29,7 +30,7 @@ function App() {
     setPage(prevPage => prevPage + 1);
   };
 
-  const handleImageClick = image => {
+  const handleImageClick = (image: Image) => {
     setSelectedImage(image);
     setIsModalOpen(true);
   };
@@ -71,11 +72,13 @@ function App() {
       {articles.length > 0 && !isLoading && (
         <LoadMoreBtn onClick={handleLoadMoreClick} />
       )}
-      <ImageModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        image={selectedImage}
-      />
+      {isModalOpen && selectedImage && (
+        <ImageModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          image={selectedImage}
+        />
+      )}
     </>
   );
 }

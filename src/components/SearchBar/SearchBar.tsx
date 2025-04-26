@@ -1,7 +1,18 @@
 import css from './SearchBar.module.css';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage as FormikErrorMessage,
+  FormikHelpers,
+} from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
+import { SearchBarProps } from '../../types/types';
+
+interface FormValues {
+  searchTopic: string;
+}
 
 const validationSchema = Yup.object({
   searchTopic: Yup.string()
@@ -10,25 +21,30 @@ const validationSchema = Yup.object({
     .required('Search field cannot be empty'),
 });
 
-function SearchBar({ onSubmit }) {
+function SearchBar({ onSubmit }: SearchBarProps) {
+  const handleSubmit = (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
+    if (!values.searchTopic.trim()) {
+      toast.error('Please enter a search term');
+      return;
+    }
+    onSubmit(values.searchTopic);
+    actions.resetForm();
+  };
+
   return (
     <header className={css.header}>
-      <Formik
+      <Formik<FormValues>
         initialValues={{ searchTopic: '' }}
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={(values, actions) => {
-          if (!values.searchTopic.trim()) {
-            toast.error('Please enter a search term');
-            return;
-          }
-          onSubmit(values.searchTopic);
-          actions.resetForm();
-        }}
+        onSubmit={handleSubmit}
       >
-        {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit} className={css.form}>
+        {() => (
+          <Form className={css.form}>
             <div>
               <Field
                 type="text"
@@ -38,14 +54,13 @@ function SearchBar({ onSubmit }) {
                 placeholder="Search images and photos"
                 className={css.input}
               />
-
               <button type="submit" className={css.button}>
                 Search
               </button>
             </div>
 
             <div>
-              <ErrorMessage
+              <FormikErrorMessage
                 name="searchTopic"
                 component="div"
                 className={css.errorText}
@@ -59,3 +74,4 @@ function SearchBar({ onSubmit }) {
 }
 
 export default SearchBar;
+

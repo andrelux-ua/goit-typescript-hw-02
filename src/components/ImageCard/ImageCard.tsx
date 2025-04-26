@@ -1,6 +1,7 @@
 import css from './ImageCard.module.css';
+import { ImageCardProps } from '../../types/types';
 
-function ImageCard({ item }) {
+function ImageCard({ item }: ImageCardProps) {
   return (
     <div className={css.card}>
       <img
@@ -13,3 +14,4 @@ function ImageCard({ item }) {
 }
 
 export default ImageCard;
+
